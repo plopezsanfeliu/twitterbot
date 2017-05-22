@@ -1,5 +1,5 @@
 import tweepy
-from models import *
+from models import TwitterUser
 
 class Bot():
     __slots__ = ['__consumer_key', '__consumer_secret', '__access_token',
