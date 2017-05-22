@@ -18,14 +18,14 @@ class Tweet(models.Model):
 
 class TwitterUser(models.Model):
     name = models.CharField(max_length=15)
-    valid = models.BinaryField()
+    valid = models.BooleanField()
 
 
 class User(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=60)
     email = models.CharField(max_length=50)
-    admin = models.BinaryField()
+    admin = models.BooleanField()
 
 
 class UserRelations(models.Model):
