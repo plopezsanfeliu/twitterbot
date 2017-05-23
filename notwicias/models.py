@@ -16,7 +16,7 @@ class Tweet(models.Model):
     category = models.SmallIntegerField()
 
     def __unicode__(self):
-        return self.text
+        return "Twitter ID: {}; Text: {}".format(self.twitter_id, self.text.encode('ascii', 'ignore').decode('ascii'))
 
 
 class TwitterUser(models.Model):

@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -28,24 +29,13 @@ def getTweetsByName(api, name, number):
 def addTweets(tweet_list):
     error = 0
     for tweet_info in tweet_list:
-        query = (
-            """INSERT INTO tweet (id, username, user, language, retweets, favorites, coordinates, text, date, time, 
-        category) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', "%s", '%s', '%s', '%s') ON DUPLICATE KEY UPDATE 
-        retweets = %s, favorites = %s;""" %
-            (tweet_info[0], tweet_info[1], tweet_info[2], tweet_info[3],
-             tweet_info[4], tweet_info[5], tweet_info[6],
-             tweet_info[7].replace(u'\u2019', u'\'').
-             replace(u'\u2026', u'...').replace(u'\u2018', u'\'').
-             replace(u'\u25b6', u'[PLAY]').replace(u'\u201c', u'\"').
-             replace(u'\u201d', u'\'').replace('"', '\'').
-             replace(u'\u2013', '-').replace(u'\u20ac', 'EUR').
-             replace(u'\uf006', '-').replace(u'\u2014', '-'),
-             tweet_info[8], tweet_info[9], "0", tweet_info[4], tweet_info[5]))
         u = Tweet(twitter_id=tweet_info[0], username=tweet_info[1], user=tweet_info[2], language=tweet_info[3],
                         retweets=tweet_info[4], favorites=tweet_info[5], coordinates=tweet_info[6], text=tweet_info[7],
                         date=tweet_info[8].replace("/", "-"), time=tweet_info[9], category=0)
-
-        u.save()
+        try:
+            u.save()
+        except IntegrityError:
+            pass
 
 
 def bot(request):
