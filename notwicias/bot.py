@@ -1,5 +1,5 @@
 import tweepy
-from models import TwitterUser
+'''from models import TwitterUser
 
 class Bot():
     __slots__ = ['__consumer_key', '__consumer_secret', '__access_token',
@@ -48,7 +48,6 @@ class Bot():
         return tweetList
 
     def getTrendingTopics(self):
-        """Retorna una llista de Python amb els 10 Trending Topics."""
         trends1 = self.__api.trends_place(1)
         data = trends1[0]
         trends = data['trends']
@@ -77,3 +76,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
+
+consumer_key = "cNbkKHve3645xLIVgJjQbrWg6"
+consumer_secret = "B1SWKCIMFQjhh3Y5YGstKMvl8t7IAPTha1jxXy5b3IC6K8wz7w"
+access_token = "3720533727-cBbDc2bDnDSU6f9SuC3ti4oQcfTkMk7VbVmh9ZW"
+access_token_secret = "k2aioMNx3tCfw6jW9teksQ98WllWbKogVQF4YW0sRYTuW"
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+api = tweepy.API(auth)
+
+u = TwitterUser()
