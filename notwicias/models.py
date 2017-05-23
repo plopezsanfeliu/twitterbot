@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Tweet(models.Model):
-    twitter_id = models.BigIntegerField()
+    twitter_id = models.BigIntegerField(unique=True)
     username = models.CharField(max_length=25)
     user = models.CharField(max_length=25)
     language = models.CharField(max_length=4)
@@ -17,14 +17,14 @@ class Tweet(models.Model):
 
 
 class TwitterUser(models.Model):
-    name = models.CharField(max_length=15)
+    name = models.CharField(max_length=15, unique=True)
     valid = models.BooleanField()
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20)
+    username = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=60)
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=50, unique=True)
     admin = models.BooleanField()
 
 
