@@ -9,11 +9,14 @@ class Tweet(models.Model):
     language = models.CharField(max_length=4)
     retweets = models.IntegerField()
     favorites = models.IntegerField()
-    coordinates = models.CharField(max_length=50)
+    coordinates = models.CharField(max_length=50, null=True)
     text = models.CharField(max_length=160)
     date = models.DateField()
     time = models.TimeField()
     category = models.SmallIntegerField()
+
+    def __unicode__(self):
+        return self.text
 
 
 class TwitterUser(models.Model):

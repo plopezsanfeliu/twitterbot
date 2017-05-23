@@ -43,12 +43,9 @@ def addTweets(tweet_list):
              tweet_info[8], tweet_info[9], "0", tweet_info[4], tweet_info[5]))
         u = Tweet(twitter_id=tweet_info[0], username=tweet_info[1], user=tweet_info[2], language=tweet_info[3],
                         retweets=tweet_info[4], favorites=tweet_info[5], coordinates=tweet_info[6], text=tweet_info[7],
-                        date=tweet_info[8], time=tweet_info[9], category="0")
-        try:
-            # self.__cursor.execute(query)
-            print u
-        except UnicodeEncodeError:
-            pass  # no fem res en cas d'error
+                        date=tweet_info[8].replace("/", "-"), time=tweet_info[9], category=0)
+
+        u.save()
 
 
 def bot(request):
