@@ -1,60 +1,23 @@
-from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-import tweepy
-
-from notwicias.models import TwitterUser, Tweet
+from notwicias.bot import Bot
 
 
 def index(request):
     return HttpResponse("Index of Notwicias")
 
 
-def getTweetsByName(api, name, number):
-    tweet_list = []
+def start_bot(request):
+    b = Bot()
+    b.loop()
 
-    tweets = api.user_timeline(screen_name=name, count=number)
-
-    for status in tweets:
-        tweet_info = [status.id, status.author.screen_name, status.author.name, status.lang, status.retweet_count,
-                      status.favorite_count, status.coordinates, status.text.replace('"', "\""),
-                      status.created_at.strftime("%Y/%m/%d"), status.created_at.strftime("%H:%m:%S")]
-        tweet_list.append(tweet_info)
-
-    return tweet_list
+    return HttpResponse("Server running")
 
 
-def addTweets(tweet_list):
-    error = 0
-    for tweet_info in tweet_list:
-        u = Tweet(twitter_id=tweet_info[0], username=tweet_info[1], user=tweet_info[2], language=tweet_info[3],
-                        retweets=tweet_info[4], favorites=tweet_info[5], coordinates=tweet_info[6], text=tweet_info[7],
-                        date=tweet_info[8].replace("/", "-"), time=tweet_info[9], category=0)
-        try:
-            u.save()
-        except IntegrityError:
-            pass
+def stop_bot(request):
+    b = Bot()
+    b.loop = False
 
-
-def bot(request):
-    consumer_key = "cNbkKHve3645xLIVgJjQbrWg6"
-    consumer_secret = "B1SWKCIMFQjhh3Y5YGstKMvl8t7IAPTha1jxXy5b3IC6K8wz7w"
-    access_token = "3720533727-cBbDc2bDnDSU6f9SuC3ti4oQcfTkMk7VbVmh9ZW"
-    access_token_secret = "k2aioMNx3tCfw6jW9teksQ98WllWbKogVQF4YW0sRYTuW"
-
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-
-    api = tweepy.API(auth)
-
-    user_list = TwitterUser.objects.all()
-    tweets = []
-
-    for user in user_list:
-        tweets += getTweetsByName(api, user.name, 2)
-
-    addTweets(tweets)
-
-    return HttpResponse(tweets)
+    return HttpResponse("Server stopped")
