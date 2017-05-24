@@ -1,0 +1,27 @@
+{% include "notwicias/include/header.html" %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>{{ category_id }}
+            <small> Caregorías</small>
+        </h1>
+    </div>
+
+    {% for tweet in category_set %}
+    <div class='col-sm-6'><h3>{{ tweet.user }} ({{ tweet.date }})</h3>
+        {{ tweet.text }}<br />
+        {{ tweet.date }} {{ tweet.time }}<br /><br /><hr>
+    </div>
+    {% endfor %}
+</div>
+
+{% include "notwicias/include/footer.html" %}
+
+<!--
+politica = 1
+internacional = 2
+esports = 3
+tecnologia = 4
+transports = 5
+else = 0
+-->
