@@ -28,3 +28,7 @@ def start_bot(request):
     b = Bot()
     b.loop()
     return HttpResponse("Server running")
+
+
+def sign_in(request):
+    return render(request, 'notwicias/signin.html')
