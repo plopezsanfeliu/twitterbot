@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -24,13 +25,6 @@ class TwitterUser(models.Model):
     valid = models.BooleanField()
 
 
-class User(models.Model):
-    username = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=60)
-    email = models.CharField(max_length=50, unique=True)
-    admin = models.BooleanField()
-
-
-class UserRelations(models.Model):
-    user = models.ForeignKey(User)
+class UserRelation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     group = models.CharField(max_length=15)
