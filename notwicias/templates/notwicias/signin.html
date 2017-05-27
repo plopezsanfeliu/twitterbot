@@ -2,22 +2,25 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>Formulari de registre
-            <small> Accés al sistema</small>
+        <h1>Formulario de registro
+            <small> Acceso al sistema</small>
         </h1>
     </div>
-    <p>Omple els següents camps del formulari per a crear el teu usuari</p>
+    <p>Llena los campos del formulario para crear tu usuario.</p>
 
-    <form data-toggle="validator" role="form" action="operations/signin.php" method="post">
-        <div class="form-group">
-            <label for="inputName" class="control-label">Nom d'usuari</label>
+    <form data-toggle="validator" role="form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Registrar" />
+        <!--<div class="form-group">
+            <label for="inputName" class="control-label">Nombre de usuario</label>
             <input type="text" class="form-control" id="inputName" placeholder="Username" name="username" required>
         </div>
 
         <div class="form-group">
-            <label for="inputEmail" class="control-label">Correu electrònic</label>
+            <label for="inputEmail" class="control-label">Correo electrónico</label>
 
-            <input type="email" class="form-control" id="inputEmail" placeholder="nom@host.domini" name="email"
+            <input type="email" class="form-control" id="inputEmail" placeholder="nombre@host.dominio" name="email"
                    data-error="L'adreça de correu és invàlida" required>
             <div class="help-block with-errors"></div>
         </div>
@@ -28,11 +31,11 @@
                 <div class="form-group col-sm-6">
                     <input type="password" data-minlength="8" class="form-control" id="inputPassword"
                            placeholder="Password" name="password" required>
-                    <span class="help-block">La mida mínima del password és de 8</span>
+                    <span class="help-block">La longitud mínima del password es de 8</span>
                 </div>
                 <div class="form-group col-sm-6">
                     <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword"
-                           data-match-error="Els passwords no coincideixen" placeholder="Repetició de password"
+                           data-match-error="Els passwords no coincideixen" placeholder="Repetición de password"
                            name="password2" required>
                     <div class="help-block with-errors"></div>
                 </div>
@@ -44,14 +47,14 @@
                 <label>
                     <input type="checkbox" id="terms" data-error="Heu d'acceptar les condicions d'ús" name="check"
                            required>
-                    Accepto les condicions d'ús
+                    Acepto las condiciones de uso
                 </label>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Registrar</button>
-        </div>
+        </div>-->
     </form>
 
 </div>

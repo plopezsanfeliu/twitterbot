@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from notwicias.bot import Bot
+from notwicias.forms import SignInForm
 from notwicias.models import Tweet
 
 
@@ -31,4 +32,13 @@ def start_bot(request):
 
 
 def sign_in(request):
-    return render(request, 'notwicias/signin.html')
+    if request.method == 'POST':
+        form = SignInForm(request.POST)
+
+        if form.is_valid():
+            return HttpResponse("OK")
+        else:
+            return HttpResponse("KO")
+    else:
+        form = SignInForm()
+        return render(request, 'notwicias/signin.html', {'form': form})
