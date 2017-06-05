@@ -44,11 +44,25 @@ def sign_in(request):
                     User.objects.create_user(data['username'], data['email'], data['password1'])
                     return HttpResponse('OK')
                 except IntegrityError:
-                    return HttpResponse('El nombre de usuario ya existe')
+                    return HttpResponse('El nombre de usuario ya existe.')
             else:
-                return HttpResponse('Los passwords no coinciden')
+                return HttpResponse('Los passwords no coinciden.')
         else:
-            return HttpResponse('No se cumplen los requisitos de campos')
+            return HttpResponse('No se cumplen los requisitos de campos.')
     else:
         form = SignInForm()
         return render(request, 'notwicias/signin.html', {'form': form})
+
+
+def log_in(request):
+    if request.method == 'POST':
+        form = request.POST
+        request.session['username'] = form['username']
+        return render(request, 'notwicias/index.html')
+    else:
+        return HttpResponse('Peticion incorrecta')
+
+
+def log_out(request):
+    request.session.flush()
+    return render(request, 'notwicias/index.html')
