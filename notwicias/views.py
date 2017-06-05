@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -5,6 +6,7 @@ from django.shortcuts import render
 from notwicias.bot import Bot
 from notwicias.forms import SignInForm
 from notwicias.models import Tweet
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -36,9 +38,17 @@ def sign_in(request):
         form = SignInForm(request.POST)
 
         if form.is_valid():
-            return HttpResponse("OK")
+            data = form.cleaned_data
+            if data['password1'] == data['password2']:
+                try:
+                    User.objects.create_user(data['username'], data['email'], data['password1'])
+                    return HttpResponse('OK')
+                except IntegrityError:
+                    return HttpResponse('El nombre de usuario ya existe')
+            else:
+                return HttpResponse('Los passwords no coinciden')
         else:
-            return HttpResponse("KO")
+            return HttpResponse('No se cumplen los requisitos de campos')
     else:
         form = SignInForm()
         return render(request, 'notwicias/signin.html', {'form': form})
