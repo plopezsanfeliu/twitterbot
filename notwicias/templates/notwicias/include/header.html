@@ -25,32 +25,41 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.php">Portada</a></li>
+                <li class="active"><a href="{% url 'notwicias:index' %}">Portada</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Categorías<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/notwicias/category/0">General</a></li>
-                        <li><a href="/notwicias/category/1">Política</a></li>
-                        <li><a href="/notwicias/category/2">Internacional</a></li>
-                        <li><a href="/notwicias/category/3">Tecnología</a></li>
-                        <li><a href="/notwicias/category/4">Deportes</a></li>
-                        <li><a href="/notwicias/category/5">Transportes</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='0' %}">General</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='1' %}">Política</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='2' %}">Internacional</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='3' %}">Tecnología</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='4' %}">Deportes</a></li>
+                        <li><a href="{% url 'notwicias:category' category_id='5' %}">Transportes</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Los más<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="top.php?action=p">Favoritos</a></li>
-                        <li><a href="top.php?action=r">Retuiteados</a></li>
+                        <li><a href="{% url 'notwicias:most' type='favorites' %}">Favoritos</a></li>
+                        <li><a href="{% url 'notwicias:most' type='retweets' %}">Retuiteados</a></li>
                     </ul>
                 </li>
             </ul>
             {% if 'username' in request.session %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="logout"><span class="glyphicon glyphicon-user"></span>
-                    {{ request.session.username }}</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><span class="glyphicon glyphicon-lock"></span> Área privada<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="myarea.php">Mi portada</a></li>
+                        <li><a href="manage_area.php">Configuración</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'notwicias:log_out' %}"><span class="glyphicon glyphicon-off"></span> Salir
+                    ({{ request.session.username }})</a></li>
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
@@ -70,7 +79,8 @@
 <div class="alert alert-info alert-dismissible fade in" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
     </button>
-    <strong>Atención!</strong> Para una personalización de notícias <a href="#" class="alert-link">entra con tu cuenta.</a>
+    <strong>Atención!</strong> Para una personalización de notícias <a href="#" class="alert-link">entra con tu
+    cuenta.</a>
 </div>
 {% endif %}
 
@@ -86,7 +96,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Entra tus credenciales.</p>
-                    <form class="form-signin" action="login" method="post">
+                    <form class="form-signin" action="{% url 'notwicias:log_in' %}" method="post">
                         {% csrf_token %}
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span

@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<table class="table-striped table-bordered">
-    <tr>
-    <th>Posición</th>
-    <th>Favoritos</th>
-    <th>Autor</th>
-    <th>Texto</th>
-    <th>Fecha</th>
-    </tr>
-    {{ type }}
+{% include "notwicias/include/header.html" %}
 
-</body>
-</html>
+<div class="container">
+    <div class="page-header">
+        <h1>{{ type }}
+            <small> Los más</small>
+        </h1>
+    </div>
+
+    <table class="table-striped table-bordered">
+        <tr>
+            <th>Posición</th>
+            {% if type == 'Retuiteados' %}
+            <th>Retweets</th>
+            {% elif type == 'Favoritos' %}
+            <th>Favoritos</th>
+            {% endif %}
+            <th>Autor</th>
+            <th>Texto</th>
+            <th>Fecha</th>
+        </tr>
+
+        {% for tweet in tweet_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            {% if type == 'Retuiteados' %}
+            <td>{{ tweet.retweets }}</td>
+            {% elif type == 'Favoritos' %}
+            <td>{{ tweet.favorites }}</td>
+            {% endif %}
+            <td>{{ tweet.user }}</td>
+            <td>{{ tweet.text }}</td>
+            <td>{{ tweet.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% include "notwicias/include/footer.html" %}

@@ -60,7 +60,7 @@ def sign_in(request):
 def log_in(request):
     if request.method == 'POST':
         form = request.POST
-        user = authenticate(username = form['username'], password = form['password'])
+        user = authenticate(username=form['username'], password=form['password'])
         if user is not None:
             request.session['username'] = form['username']
             return redirect('/notwicias')
@@ -76,4 +76,11 @@ def log_out(request):
 
 
 def most(request, type):
-    return render(request, 'notwicias/most.html', {'type': type})
+    MAX_TWEETS = 5
+    if type == 'favorites':
+        type = 'Favoritos'
+        tweet_list = Tweet.objects.order_by('-favorites')[:MAX_TWEETS]
+    elif type == 'retweets':
+        type = 'Retuiteados'
+        tweet_list = Tweet.objects.order_by('-retweets')[:MAX_TWEETS]
+    return render(request, 'notwicias/most.html', {'type': type, 'tweet_list': tweet_list})
