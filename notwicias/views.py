@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+from django.contrib.auth import authenticate
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -57,10 +60,14 @@ def sign_in(request):
 def log_in(request):
     if request.method == 'POST':
         form = request.POST
-        request.session['username'] = form['username']
-        return render(request, 'notwicias/index.html')
+        user = authenticate(username = form['username'], password = form['password'])
+        if user is not None:
+            request.session['username'] = form['username']
+            return render(request, 'notwicias/index.html')
+        else:
+            return HttpResponse('Autenticación fallida.')
     else:
-        return HttpResponse('Peticion incorrecta')
+        return HttpResponse('Petición incorrecta')
 
 
 def log_out(request):
