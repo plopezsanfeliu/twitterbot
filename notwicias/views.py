@@ -3,7 +3,7 @@
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from notwicias.bot import Bot
@@ -63,7 +63,7 @@ def log_in(request):
         user = authenticate(username = form['username'], password = form['password'])
         if user is not None:
             request.session['username'] = form['username']
-            return render(request, 'notwicias/index.html')
+            return redirect('/notwicias')
         else:
             return HttpResponse('Autenticación fallida.')
     else:
@@ -72,4 +72,8 @@ def log_in(request):
 
 def log_out(request):
     request.session.flush()
-    return render(request, 'notwicias/index.html')
+    return redirect('/notwicias')
+
+
+def most(request, type):
+    return render(request, 'notwicias/most.html', {'type': type})

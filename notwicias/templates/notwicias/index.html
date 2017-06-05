@@ -1,17 +1,19 @@
 {% include "notwicias/include/header.html" %}
 
+{% if not 'username' in request.session %}
 <div class="container">
     <div class="jumbotron">
-        <h1>Benvingut a Notwícies</h1>
-        <p>El portal de notícies actualitzat 24 hores via Twitter.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Dona't d'alta</a>
+        <h1>Bienvenido a Notwícias</h1>
+        <p>El portal de notícias actualizado 24 horas vía Twitter.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Date de alta</a>
     </div>
 </div>
+{% endif %}
 
 <div class="container">
     <div class="page-header">
         <h1>Portada
-            <small> Últimes notícies</small>
+            <small> Últimas notícias</small>
         </h1>
     </div>
 

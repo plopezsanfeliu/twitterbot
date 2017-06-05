@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^signin', views.sign_in, name='sign_in'),
     url(r'^login', views.log_in, name='log_in'),
     url(r'^logout', views.log_out, name='log_out'),
+    url(r'^most/(?P<type>[\w-]+)/$', views.most, name='most'),
 ]
