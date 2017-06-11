@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^login', views.log_in, name='log_in'),
     url(r'^logout', views.log_out, name='log_out'),
     url(r'^most/(?P<type>[\w-]+)/$', views.most, name='most'),
+    url(r'^manage', views.manage, name='manage'),
+    url(r'^modify/(?P<group_id>[0-9]{1})/$', views.modify, name='modify'),
 ]

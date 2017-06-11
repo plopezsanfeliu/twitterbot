@@ -24,7 +24,13 @@ class TwitterUser(models.Model):
     name = models.CharField(max_length=15, unique=True)
     valid = models.BooleanField()
 
+    def __str__(self):
+        return self.name
+
 
 class UserRelation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.CharField(max_length=15)
+    group = models.ForeignKey(TwitterUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.user) + ", " + str(self.group)

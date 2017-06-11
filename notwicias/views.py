@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from notwicias.bot import Bot
 from notwicias.forms import SignInForm
-from notwicias.models import Tweet
+from notwicias.models import Tweet, UserRelation, TwitterUser
 from django.contrib.auth.models import User
 
 
@@ -63,6 +63,7 @@ def log_in(request):
         user = authenticate(username=form['username'], password=form['password'])
         if user is not None:
             request.session['username'] = form['username']
+            request.session['user_id'] = user.id
             return redirect('/notwicias')
         else:
             return HttpResponse('Autenticación fallida.')
@@ -84,3 +85,25 @@ def most(request, type):
         type = 'Retuiteados'
         tweet_list = Tweet.objects.order_by('-retweets')[:MAX_TWEETS]
     return render(request, 'notwicias/most.html', {'type': type, 'tweet_list': tweet_list})
+
+
+def manage(request):
+    if 'username' in request.session:
+        group_list = UserRelation.objects.filter(user=request.session['user_id']) # algode IDs no va bé aquí, revisar
+        exclude_list = TwitterUser.objects.all()
+        print group_list
+        return render(request, 'notwicias/manage.html', {'group_list': group_list, 'exclude_list': exclude_list})
+    else:
+        return redirect('/notwicias')
+
+
+def modify(request, group_id):
+    group = UserRelation.objects.filter(user=request.session['user_id'], group=group_id)
+    if not group:
+        user_object = User.objects.get(id=request.session['user_id'])
+        group_object = TwitterUser.objects.get(id=group_id)
+        new_relation = UserRelation(user=user_object, group=group_object)
+        new_relation.save()
+    else:
+        UserRelation.objects.filter(user=request.session['user_id'], group=group_id).delete()
+    return redirect('/notwicias/manage')

@@ -1,0 +1,62 @@
+{% include "notwicias/include/header.html" %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>Gestión de mi portada
+            <small> Área privada</small>
+        </h1>
+    </div>
+    <p>A continuación puedes añadir o quitar los grupos que aparecen en tu portada. Si lo deseas, puedes hacer una
+        petición en el recuadro de abajo de un grupo que no esté disponible.</p>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Grupos suscritos</div>
+                <div class="panel-body">
+                    {% for group in group_list %}
+                    <a href="modify/{{ group.id }}">
+                        <button type="button" class="btn btn-default" style="margin-right:5px;margin-bottom:5px">
+                            {{ group.group }}
+                            <span class="glyphicon glyphicon-minus" style="margin-left:10px"></span></button>
+                    </a>
+                    {% empty %}
+                    <p>Actualmente no estas suscrito a ningún grupo.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Añadir grupo</div>
+                <div class="panel-body">
+                    {% for exclude in exclude_list %}
+                    <a href="modify/{{ exclude.id }}">
+                        <button type="button" class="btn btn-success" style="margin-right:5px;margin-bottom:5px">
+                            {{ exclude }}
+                            <span class="glyphicon glyphicon-plus" style="margin-left:10px"></span></button>
+                    </a>
+                    {% empty %}
+                    <p>Actualmente no estas suscrito a ningún grupo.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Nuevo grupo</h2>
+            <p>Introduce el nombre del grupo a añadir:</p>
+            <form class="form-inline" action="operations/add_group.php" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon6"><span
+                            class="glyphicon glyphicon-plus"></span></span>
+                    <input type="text" class="form-control" placeholder="Nom del grup" name="name">
+                </div>
+                <button type="submit" class="btn btn-default">Añadir</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include "notwicias/include/footer.html" %}
